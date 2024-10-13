@@ -9,7 +9,8 @@ variable "ami" {
 }
 
 provider "aws" {
-  region = var.region
+  version = "5.70.0"
+  region  = var.region
 }
 
 # VPC
