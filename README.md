@@ -10,3 +10,8 @@ How to install terraform - https://developer.hashicorp.com/terraform/install
 ```ruby
 sudo yum install -y yum-utils shadow-utils; sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo; sudo yum -y install terraform; terraform init
 ```
+## How to install Wordpress, nginx, and mariadb in AWS Linux2
+```bash
+sudo amazon-linux-extras install php7.4
+sudo yum install -y mariadb-server
+```
