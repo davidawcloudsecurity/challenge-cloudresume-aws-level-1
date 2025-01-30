@@ -119,7 +119,7 @@ Wordpress. Just remember to change db_name, db_user, db_password and mysql_root_
 #!/bin/bash
 
 # Variables
-install_dir="/var/www/html/wordpress"
+install_dir="/var/www/html"
 db_name="wp_$(date +%s)"
 db_user=$db_name
 db_password=$(date | md5sum | cut -c 1-12)
@@ -199,6 +199,8 @@ systemctl start mariadb
 
 # Restart Apache to apply changes
 systemctl restart apache2
+
+rm -rf /var/www/html/index.html
 
 # Ensure port 3000 is open in firewall (if ufw is used)
 ufw allow 3000/tcp
