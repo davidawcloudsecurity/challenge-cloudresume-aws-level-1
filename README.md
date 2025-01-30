@@ -103,6 +103,7 @@ db_name="wp_$(date +%s)"
 db_user=$db_name
 db_password=$(date | md5sum | cut -c 1-12)
 mysql_root_password=$(date | md5sum | cut -c 1-12)
+db_host="192.168.0.203"
 
 # Update and install necessary packages
 apt update -y
@@ -162,6 +163,7 @@ cp ${install_dir}/wp-config-sample.php ${install_dir}/wp-config.php
 sed -i "s/database_name_here/${db_name}/" ${install_dir}/wp-config.php
 sed -i "s/username_here/${db_user}/" ${install_dir}/wp-config.php
 sed -i "s/password_here/${db_password}/" ${install_dir}/wp-config.php
+sed -i "s/localhost/${db_host}/" ${install_dir}/wp-config.php
 
 # Add security keys (salts) to wp-config.php
 curl -s https://api.wordpress.org/secret-key/1.1/salt/ >> ${install_dir}/wp-config.php
@@ -177,10 +179,11 @@ systemctl restart apache2
 ufw allow 3000/tcp
 
 # Final installation checks
-if systemctl status apache2 | grep "active (running)" && mysql -u root -p${mysql_root_password} -e "USE ${db_name}"; then
+if systemctl status apache2 | grep "active (running)" && mysql -h ${db_host} -u root -p${mysql_root_password} -e "USE ${db_name}"; then
     # Print out installation details only if everything is successful
     echo "Installation complete!"
     echo "WordPress has been installed in ${install_dir}"
+    echo "Database Host: ${db_host}"
     echo "Database Name: ${db_name}"
     echo "Database User: ${db_user}"
     echo "Database Password: ${db_password}"
