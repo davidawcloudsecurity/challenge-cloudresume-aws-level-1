@@ -110,6 +110,10 @@ else
     exit 1
 fi
 ```
+```bash
+# Grant access to the specific host
+mysql -u root -p -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'192.168.0.29' IDENTIFIED BY 'your_password' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+```
 Wordpress. Just remember to change db_name, db_user, db_password and mysql_root_password if you are using the cred from above
 ```bash
 #!/bin/bash
