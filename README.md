@@ -59,7 +59,7 @@ EOF
 mysql -u root <<MYSQL_SCRIPT
 ALTER USER 'root'@'localhost' IDENTIFIED BY '${mysql_root_password}';
 CREATE DATABASE ${db_name};
-CREATE USER '${db_user}'@'localhost' IDENTIFIED BY '${db_password}';
+CREATE USER '${db_user}'@'%' IDENTIFIED BY '${db_password}';
 GRANT ALL PRIVILEGES ON ${db_name}.* TO '${db_user}'@'%';
 FLUSH PRIVILEGES;
 MYSQL_SCRIPT
