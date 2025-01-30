@@ -60,7 +60,7 @@ mysql -u root <<MYSQL_SCRIPT
 ALTER USER 'root'@'localhost' IDENTIFIED BY '${mysql_root_password}';
 CREATE DATABASE ${db_name};
 CREATE USER '${db_user}'@'localhost' IDENTIFIED BY '${db_password}';
-GRANT ALL PRIVILEGES ON ${db_name}.* TO '${db_user}'@'localhost';
+GRANT ALL PRIVILEGES ON ${db_name}.* TO '${db_user}'@'%';
 FLUSH PRIVILEGES;
 MYSQL_SCRIPT
 
@@ -200,7 +200,7 @@ systemctl restart apache2
 ufw allow 3000/tcp
 
 # Final installation checks
-if systemctl status apache2 | grep "active (running)" && mysql -h ${db_host} -u root -p${mysql_root_password} -e "USE ${db_name}"; then
+if systemctl status apache2 | grep "active (running)" && mysql -h ${db_host} -u ${db_user} -p${mysql_root_password} -e "USE ${db_name}"; then
     # Print out installation details only if everything is successful
     echo "Installation complete!"
     echo "WordPress has been installed in ${install_dir}"
