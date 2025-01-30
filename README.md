@@ -80,6 +80,23 @@ password=${mysql_root_password}
 EOF
 chmod 600 ~/.my.cnf
 
+# Backup the current configuration file
+cp /etc/mysql/mariadb.conf.d/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf.bak
+
+# Change the bind-address from 127.0.0.1 to 0.0.0.0
+sed -i 's/^bind-address\s*=.*$/bind-address = 0.0.0.0/' /etc/mysql/mariadb.conf.d/50-server.cnf
+
+# Restart MariaDB service to apply changes
+systemctl restart mariadb
+
+# Check the status of MariaDB service
+if systemctl status mariadb | grep "active (running)"; then
+    echo "MariaDB configuration updated successfully and service restarted."
+else
+    echo "Failed to restart MariaDB service. Please check the configuration."
+    exit 1
+fi
+
 # Final checks
 if systemctl status mariadb | grep "active (running)" && mysql -u root -p${mysql_root_password} -e "USE ${db_name}"; then
     # Print out installation details only if everything is successful
