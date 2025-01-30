@@ -193,6 +193,10 @@ curl -s https://api.wordpress.org/secret-key/1.1/salt/ >> ${install_dir}/wp-conf
 a2enmod rewrite
 sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
 
+apt install -y mariadb-server mariadb-client
+systemctl enable mariadb
+systemctl start mariadb
+
 # Restart Apache to apply changes
 systemctl restart apache2
 
