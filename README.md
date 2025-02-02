@@ -17,6 +17,41 @@ sudo yum install -y yum-utils shadow-utils; sudo yum-config-manager --add-repo h
 sudo amazon-linux-extras install php7.4
 sudo yum install -y mariadb-server
 ```
+# Install Nginx
+```bash
+#!/bin/bash
+wp_server=192.168.0.83
+apt install -y nginx
+systemctl enable nginx
+
+# Create NGINX config file
+sudo bash -c 'cat > /etc/nginx/sites-available/default << EOF
+server {
+    listen 80;
+    server_name localhost;
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+        proxy_set_header Connection "";
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade \$http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+}
+EOF'
+
+# Restart Nginx to apply changes
+systemctl restart nginx
+
+# Ensure ports are open in firewall (if ufw is used)
+ufw allow 80/tcp
+ufw allow 3000/tcp
+
+```
 mariadb
 ```bash
 #!/bin/bash
