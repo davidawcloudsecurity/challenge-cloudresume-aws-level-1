@@ -117,14 +117,16 @@ mysql -u root -p -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'192.168.0.29' IDENTI
 Wordpress. Just remember to change db_name, db_user, db_password and mysql_root_password if you are using the cred from above
 ```bash
 #!/bin/bash
+
 apt install net-tools
+
 # Variables
 install_dir="/var/www/html"
-db_name="wp_$(date +%s)"
-db_user=$db_name
-db_password=$(date | md5sum | cut -c 1-12)
-mysql_root_password=$(date | md5sum | cut -c 1-12)
-db_host="192.168.0.203"
+db_name=<change me>
+db_user=<change me>
+db_password=<change me>
+mysql_root_password=<change me>
+db_host=<change me>
 
 # Update and install necessary packages
 apt update -y
@@ -201,7 +203,7 @@ chmod +x wp-cli.phar
 mv wp-cli.phar /usr/local/bin/wp
 
 # Install WordPress using WP-CLI
-cd /var/www/html
+cd ${install_dir}
 admin_user="admin"
 # Change this to a secure password
 admin_password="P@ssw0rd123!" 
@@ -209,10 +211,10 @@ admin_password="P@ssw0rd123!"
 admin_email="admin@example.com"
 wp core install --url="http://localhost" --title="My WordPress Site" --admin_user=${admin_user} --admin_password=${admin_password} --admin_email=${admin_email} --allow-root
 
-rm -rf /var/www/html/index.html
+rm -rf ${install_dir}/index.html
 
 # Install theme
-cd /var/www/html
+cd ${install_dir}
 wp theme install https://downloads.wordpress.org/theme/spectra-one.1.1.5.zip --activate --allow-root
 
 # Restart Apache to apply changes
