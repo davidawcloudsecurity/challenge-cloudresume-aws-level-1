@@ -283,3 +283,8 @@ else
     exit 1
 fi
 ```
+## Troubleshoot
+Use this if url gets redirected
+```bash
+
+```
