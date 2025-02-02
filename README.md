@@ -51,6 +51,13 @@ systemctl restart nginx
 ufw allow 80/tcp
 ufw allow 3000/tcp
 
+response=$(curl -v localhost:3000 2>&1)
+
+if echo "$response" | grep -q -E "Host localhost:3000 was resolved.|IPv6: ::1|IPv4: 127.0.0.1|Trying \[::1\]:3000...|Connected to localhost \(::1\) port 3000|GET / HTTP/1.1|Host: localhost:3000|User-Agent: curl/8.5.0|Accept: \*/\*|HTTP/1.1 302 Found|Server: Apache/2.4.58 \(Ubuntu\)|Location: http://localhost:3000/wp-admin/install.php"; then
+  echo "Connecting to ${wp_server}:3000 is successful."
+else
+  echo "Failed to connect to ${wp_server}:3000."
+fi
 ```
 mariadb
 ```bash
