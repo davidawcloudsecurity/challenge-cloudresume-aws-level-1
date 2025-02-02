@@ -25,7 +25,7 @@ apt install -y nginx
 systemctl enable nginx
 
 # Create NGINX config file
-sudo bash -c 'cat > /etc/nginx/sites-available/default << EOF
+sudo bash -c "cat > /etc/nginx/sites-available/default << EOF
 server {
     listen 80;
     server_name localhost;
@@ -42,7 +42,7 @@ server {
         proxy_set_header Connection "upgrade";
     }
 }
-EOF'
+EOF"
 
 # Restart Nginx to apply changes
 systemctl restart nginx
