@@ -20,7 +20,7 @@ sudo yum install -y mariadb-server
 mariadb
 ```bash
 #!/bin/bash
-
+apt install net-tools
 # Variables
 db_name="wp_$(date +%s)"
 db_user=$db_name
@@ -117,7 +117,7 @@ mysql -u root -p -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'192.168.0.29' IDENTI
 Wordpress. Just remember to change db_name, db_user, db_password and mysql_root_password if you are using the cred from above
 ```bash
 #!/bin/bash
-
+apt install net-tools
 # Variables
 install_dir="/var/www/html"
 db_name="wp_$(date +%s)"
