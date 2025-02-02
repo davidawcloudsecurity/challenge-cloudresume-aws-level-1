@@ -201,8 +201,13 @@ chmod +x wp-cli.phar
 mv wp-cli.phar /usr/local/bin/wp
 
 # Install WordPress using WP-CLI
-cd ${install_dir}
-wp core install --url="http://${public_ip}" --title="My WordPress Site" --admin_user=${admin_user} --admin_password=${admin_password} --admin_email=${admin_email} --allow-root
+cd /var/www/html
+admin_user="admin"
+# Change this to a secure password
+admin_password="P@ssw0rd123!" 
+# Change this to a valid email
+admin_email="admin@example.com"
+wp core install --url="http://localhost" --title="My WordPress Site" --admin_user=${admin_user} --admin_password=${admin_password} --admin_email=${admin_email} --allow-root
 
 rm -rf /var/www/html/index.html
 
