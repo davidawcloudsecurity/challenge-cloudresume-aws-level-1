@@ -258,7 +258,7 @@ wp core install --url="http://localhost:3000" --title="My WordPress Site" --admi
 rm -rf ${install_dir}/index.html
 
 # Install theme
-cd ${install_dir}
+# cd ${install_dir}
 wp theme install https://downloads.wordpress.org/theme/spectra-one.1.1.5.zip --activate --allow-root
 
 # Restart Apache to apply changes
