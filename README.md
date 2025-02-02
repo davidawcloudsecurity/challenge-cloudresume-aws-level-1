@@ -14,6 +14,47 @@ sudo yum install -y yum-utils shadow-utils; sudo yum-config-manager --add-repo h
 ```
 ## How to install Wordpress, nginx, and mariadb in AWS Linux2
 ```bash
+#!/bin/bash
+wp_server=192.168.0.83
+apt install -y nginx
+systemctl enable nginx
+
+# Create NGINX config file
+sudo bash -c "cat > /etc/nginx/sites-available/default << 'EOF'
+server {
+    listen 80;
+    server_name localhost;
+
+    location / {
+        proxy_pass http:/${wp_server}:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Connection \"\";
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade \$http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+}
+EOF"
+
+# Restart Nginx to apply changes
+systemctl restart nginx
+
+# Ensure ports are open in firewall (if ufw is used)
+ufw allow 80/tcp
+ufw allow 3000/tcp
+
+response=$(curl -v localhost:3000 2>&1)
+
+if echo "$response" | grep -q -E "Host localhost:3000 was resolved.|IPv6: ::1|IPv4: 127.0.0.1|Trying \[::1\]:3000...|Connected to localhost \(::1\) port 3000|GET / HTTP/1.1|Host: localhost:3000|User-Agent: curl/8.5.0|Accept: \*/\*|HTTP/1.1 302 Found|Server: Apache/2.4.58 \(Ubuntu\)|Location: http://localhost:3000/wp-admin/install.php"; then
+  echo "Connecting to ${wp_server}:3000 is successful."
+else
+  echo "Failed to connect to ${wp_server}:3000."
+fi
+```
+```bash
 sudo amazon-linux-extras install php7.4
 sudo yum install -y mariadb-server
 ```
