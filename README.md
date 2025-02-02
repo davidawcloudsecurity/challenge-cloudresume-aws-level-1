@@ -251,7 +251,7 @@ admin_user="admin"
 admin_password="P@ssw0rd123!" 
 # Change this to a valid email
 admin_email="admin@example.com"
-wp core install --url="http://localhost" --title="My WordPress Site" --admin_user=${admin_user} --admin_password=${admin_password} --admin_email=${admin_email} --allow-root
+wp core install --url="http://localhost:3000" --title="My WordPress Site" --admin_user=${admin_user} --admin_password=${admin_password} --admin_email=${admin_email} --allow-root
 
 rm -rf ${install_dir}/index.html
 
