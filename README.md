@@ -16,7 +16,9 @@ sudo yum install -y yum-utils shadow-utils; sudo yum-config-manager --add-repo h
 Nginx
 ```bash
 #!/bin/bash
-wp_server=192.168.0.83
+
+apt install net-tools
+wp_server=<change me>
 apt install -y nginx
 systemctl enable nginx
 
